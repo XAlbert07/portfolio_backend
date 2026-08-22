@@ -1,0 +1,130 @@
+// portfolio-backend/prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- AUTH ----------
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String   // hashé (bcrypt)
+  name      String
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  ADMIN
+}
+
+// ---------- PROJETS ----------
+
+model Project {
+  id          String        @id @default(uuid())
+  name        String
+  slug        String        @unique
+  description String
+  category    ProjectCategory
+  status      ProjectStatus @default(EN_COURS)
+  coverImage  String?       // URL de l'image
+  demoUrl     String?
+  codeUrl     String?
+  featured    Boolean       @default(false) // mis en avant sur l'Accueil
+  order       Int           @default(0)     // pour l'ordre d'affichage
+
+  technologies ProjectTechnology[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ProjectCategory {
+  WEB_APP
+  FULLSTACK
+  FRONTEND
+  BACKEND
+}
+
+enum ProjectStatus {
+  EN_COURS
+  EN_PAUSE
+  TERMINE
+  ARCHIVE
+}
+
+// ---------- TECHNOLOGIES / COMPÉTENCES ----------
+
+model Technology {
+  id          String             @id @default(uuid())
+  name        String             @unique   // "React", "Next.js"...
+  slug        String             @unique
+  description String
+  icon        String?            // nom d'icône ou URL
+  category    TechnologyCategory
+
+  projects ProjectTechnology[]
+
+  createdAt DateTime @default(now())
+}
+
+enum TechnologyCategory {
+  DEVELOPPEMENT
+  BASE_DE_DONNEES
+  OUTILS_DEVOPS
+  METHODOLOGIES
+  AUTRES
+}
+
+// Table de jointure many-to-many Project <-> Technology
+model ProjectTechnology {
+  project      Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId    String
+  technology   Technology @relation(fields: [technologyId], references: [id], onDelete: Cascade)
+  technologyId String
+
+  @@id([projectId, technologyId])
+}
+
+// ---------- PARCOURS ACADÉMIQUE ----------
+
+model AcademicPath {
+  id          String   @id @default(uuid())
+  title       String   // "Licence 1 - Informatique"
+  description String
+  startYear   Int
+  endYear     Int?     // null si "en cours"
+  inProgress  Boolean  @default(false)
+  subjects    String[] // ["Algorithmique", "Programmation (C)", ...]
+  order       Int      @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ---------- MESSAGES (page Contact) ----------
+
+model Message {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  subject   String?
+  content   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+// ---------- STATS (optionnel, pour le dashboard admin) ----------
+
+model PageView {
+  id        String   @id @default(uuid())
+  path      String
+  visitorId String?  // cookie anonyme ou hash IP
+  createdAt DateTime @default(now())
+}
