@@ -7,6 +7,7 @@ import academicPathRoutes from "./routes/academicPath.routes";
 import messagesRoutes from "./routes/messages.routes";
 import authRoutes from "./routes/auth.routes";
 import uploadsRoutes from "./routes/uploads.routes";
+import profileRoutes from "./routes/profile.routes";
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ app.use("/api/technologies", technologiesRoutes);
 app.use("/api/academic-path", academicPathRoutes);
 app.use("/api/messages", messagesRoutes);
 app.use("/api/uploads", uploadsRoutes);
+app.use("/api/profile", profileRoutes);
 
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);

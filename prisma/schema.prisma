@@ -20,6 +20,20 @@ model User {
   createdAt DateTime @default(now())
 }
 
+model Profile {
+  id           String   @id @default("main")
+  name         String
+  title        String
+  bio          String
+  location     String?
+  availability String?
+  email        String?
+  githubUrl    String?
+  linkedinUrl  String?
+  profileImage String?
+  updatedAt    DateTime @updatedAt
+}
+
 enum Role {
   ADMIN
 }
