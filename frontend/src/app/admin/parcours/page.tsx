@@ -1,0 +1,1 @@
+export default function AdminPathPage() { return <main className="inner-page"><p className="eyebrow">Administration · Parcours</p><h1>Gérer le parcours.</h1><p className="page-lead">Les étapes académiques seront ordonnées et modifiées via `/api/academic-path`.</p></main>; }

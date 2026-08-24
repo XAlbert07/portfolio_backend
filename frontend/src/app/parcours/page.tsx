@@ -1,0 +1,5 @@
+import { SiteHeader } from "@/components/portfolio/site-header";
+import { SiteFooter } from "@/components/portfolio/site-footer";
+type PathItem = { id: string; title: string; description: string; startYear: number; endYear?: number; inProgress: boolean; subjects?: string[] };
+async function getPath(): Promise<PathItem[]> { try { const response = await fetch(`${process.env.BACKEND_URL ?? "http://localhost:4000"}/api/academic-path`, { next: { revalidate: 60 } }); return response.ok ? response.json() : []; } catch { return []; } }
+export default async function PathPage() { const path = await getPath(); return <div className="site-shell"><SiteHeader /><main className="inner-page"><p className="eyebrow">Parcours</p><h1>Les étapes qui m’ont construit.</h1><div className="timeline">{path.map((item) => <article key={item.id}><span>{item.startYear} — {item.inProgress ? "aujourd’hui" : item.endYear}</span><div><h2>{item.title}</h2><p>{item.description}</p>{item.subjects && <small>{item.subjects.join(" · ")}</small>}</div></article>)}</div></main><SiteFooter /></div>; }

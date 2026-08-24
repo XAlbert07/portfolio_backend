@@ -1,0 +1,18 @@
+import Link from "next/link";
+import type { Project } from "@/lib/portfolio-data";
+
+const statusLabel: Record<string, string> = { TERMINE: "Terminé", EN_COURS: "En cours", EN_PAUSE: "En pause", ARCHIVE: "Archivé" };
+
+export function ProjectRegister({ projects }: { projects: Project[] }) {
+  return <section className="project-register" id="projets" aria-labelledby="projects-title">
+    <div className="section-kicker"><span>Travaux choisis</span><span>{String(projects.length).padStart(2, "0")} projets</span></div>
+    <h2 id="projects-title">Des applications pensées pour être utilisées.</h2>
+    <div className="project-list">{projects.map((project, index) => <article className="project-row" key={project.id}>
+      <span className="project-number">{String(index + 1).padStart(2, "0")}</span>
+      <div className="project-main"><h3><Link href={`/projets/${project.slug}`}>{project.name}</Link></h3><p>{project.description}</p></div>
+      <div className="project-meta"><span>{statusLabel[project.status] ?? project.status}</span><p>{project.technologies.map(({ technology }) => technology.name).join(" · ")}</p></div>
+      <Link className="project-link" href={`/projets/${project.slug}`} aria-label={`Voir ${project.name}`}>Voir <span>↗</span></Link>
+    </article>)}</div>
+    <Link className="text-link" href="/projets">Voir tous les projets <span>→</span></Link>
+  </section>;
+}

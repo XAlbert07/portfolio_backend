@@ -1,0 +1,1 @@
+export default function AdminTechnologiesPage() { return <main className="inner-page"><p className="eyebrow">Administration · Technologies</p><h1>Gérer la stack.</h1><p className="page-lead">Création, modification et suppression des technologies via `/api/technologies`.</p></main>; }
