@@ -19,5 +19,5 @@ export function LoginForm() {
       setLoading(false);
     }
   }
-  return <form className="contact-form" onSubmit={submit}><label>Email<input name="email" type="email" required /></label><label>Mot de passe<input name="password" type="password" required /></label><button type="submit" disabled={loading}>{loading ? "Connexion…" : "Se connecter →"}</button>{error && <p className="form-feedback error">{error}</p>}</form>;
+  return <form className="contact-form" method="post" action="/api/auth/login" onSubmit={submit}><label>Email<input name="email" type="email" autoComplete="username" required /></label><label>Mot de passe<input name="password" type="password" autoComplete="current-password" required /></label><button type="submit" disabled={loading}>{loading ? "Connexion…" : "Se connecter →"}</button>{error && <p className="form-feedback error">{error}</p>}</form>;
 }
