@@ -2,8 +2,15 @@ import { Router } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { prisma } from "../lib/prisma";
+import { AuthRequest, requireAuth } from "../middlewares/auth.middleware";
 
 const router = Router();
+
+router.get("/me", requireAuth, async (req: AuthRequest, res) => {
+  if (!req.userId) return res.status(401).json({ message: "Authentification requise." });
+  const user = await prisma.user.findUnique({ where: { id: req.userId }, select: { id: true, name: true, email: true } });
+  return user ? res.json({ user }) : res.status(404).json({ message: "Utilisateur introuvable." });
+});
 
 // POST /api/auth/login
 // Reçoit { email, password }, vérifie qu'ils correspondent à un User
@@ -52,6 +59,30 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erreur lors de la connexion." });
+  }
+});
+
+// PUT /api/auth/credentials — modification protégée des identifiants admin.
+router.put("/credentials", requireAuth, async (req: AuthRequest, res) => {
+  try {
+    const { currentPassword, email, newPassword } = req.body;
+    if (!req.userId || !currentPassword || !email || !newPassword) {
+      return res.status(400).json({ message: "Mot de passe actuel, email et nouveau mot de passe requis." });
+    }
+    const normalizedEmail = String(email).trim().toLowerCase();
+    if (!/^\S+@\S+\.\S+$/.test(normalizedEmail)) return res.status(400).json({ message: "Adresse email invalide." });
+    if (String(newPassword).length < 8) return res.status(400).json({ message: "Le nouveau mot de passe doit contenir au moins 8 caractères." });
+
+    const user = await prisma.user.findUnique({ where: { id: req.userId } });
+    if (!user || !(await bcrypt.compare(String(currentPassword), user.password))) return res.status(401).json({ message: "Le mot de passe actuel est incorrect." });
+
+    const password = await bcrypt.hash(String(newPassword), 10);
+    const updated = await prisma.user.update({ where: { id: user.id }, data: { email: normalizedEmail, password } });
+    return res.json({ user: { id: updated.id, name: updated.name, email: updated.email } });
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "code" in error && error.code === "P2002") return res.status(409).json({ message: "Cette adresse email est déjà utilisée." });
+    console.error(error);
+    return res.status(500).json({ message: "Impossible de modifier les identifiants." });
   }
 });
 
