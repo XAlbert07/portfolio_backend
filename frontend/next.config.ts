@@ -1,11 +1,12 @@
 import type { NextConfig } from "next";
 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseOrigin = supabaseUrl ? new URL(supabaseUrl) : null;
+
 const nextConfig: NextConfig = {
   turbopack: { root: __dirname },
   images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "xmldwfrrciggzqsfpnvz.supabase.co", pathname: "/storage/v1/object/public/**" },
-    ],
+    remotePatterns: supabaseOrigin ? [{ protocol: supabaseOrigin.protocol.replace(":", "") as "http" | "https", hostname: supabaseOrigin.hostname, pathname: "/storage/v1/object/public/**" }] : [],
   },
 };
 
