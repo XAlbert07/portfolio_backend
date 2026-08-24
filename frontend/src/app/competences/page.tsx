@@ -1,5 +1,8 @@
 import { SiteHeader } from "@/components/portfolio/site-header";
 import { SiteFooter } from "@/components/portfolio/site-footer";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Compétences", description: "Les technologies et méthodes utilisées par Albert Sama pour construire des applications web maintenables.", alternates: { canonical: "/competences" } };
 
 type Technology = { id: string; name: string; description: string; category: string };
 async function getTechnologies(): Promise<Technology[]> { try { const response = await fetch(`${process.env.BACKEND_URL ?? "http://localhost:4000"}/api/technologies`, { next: { revalidate: 60 } }); return response.ok ? response.json() : []; } catch { return []; } }

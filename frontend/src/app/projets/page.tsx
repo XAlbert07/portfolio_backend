@@ -2,6 +2,9 @@ import Link from "next/link";
 import { SiteHeader } from "@/components/portfolio/site-header";
 import { SiteFooter } from "@/components/portfolio/site-footer";
 import { getProjects } from "@/lib/portfolio-data";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Projets", description: "Découvrez les projets web full-stack conçus par Albert Sama, de l’interface aux données.", alternates: { canonical: "/projets" } };
 
 export default async function ProjectsPage() {
   const projects = await getProjects();
