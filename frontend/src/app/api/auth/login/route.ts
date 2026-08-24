@@ -12,6 +12,7 @@ export async function POST(request: Request) {
     const data = await response.json().catch(() => ({}));
     if (!response.ok) return NextResponse.json(data, { status: response.status });
     const result = isFormSubmit ? NextResponse.redirect(new URL("/admin", request.url)) : NextResponse.json({ user: data.user });
+    if (isFormSubmit) result.headers.set("Location", "/admin");
     result.cookies.set("portfolio_admin_token", data.token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 7 });
     return result;
   } catch { return NextResponse.json({ message: "Backend indisponible." }, { status: 503 }); }
