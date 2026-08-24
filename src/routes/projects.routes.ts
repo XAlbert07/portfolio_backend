@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { prisma } from "../lib/prisma";
 import { requireAuth, AuthRequest } from "../middlewares/auth.middleware";
-import { removeLocalUpload } from "../lib/uploads";
+import { removeStoredProjectImage } from "../lib/storage";
 
 const router = Router();
 
@@ -177,7 +177,7 @@ router.put("/:id", requireAuth, async (req: AuthRequest, res) => {
     });
 
     if (existingProject?.coverImage && coverImage && existingProject.coverImage !== coverImage) {
-      await removeLocalUpload(existingProject.coverImage);
+      await removeStoredProjectImage(existingProject.coverImage);
     }
 
     res.json(project);
@@ -198,7 +198,7 @@ router.delete("/:id", requireAuth, async (req: AuthRequest, res) => {
 
     const project = await prisma.project.findUnique({ where: { id }, select: { coverImage: true } });
     await prisma.project.delete({ where: { id } });
-    await removeLocalUpload(project?.coverImage);
+    await removeStoredProjectImage(project?.coverImage);
 
     res.status(204).send(); // 204 = succès, pas de contenu à renvoyer
   } catch (error: any) {
