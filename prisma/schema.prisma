@@ -89,7 +89,8 @@ model Technology {
 }
 
 enum TechnologyCategory {
-  DEVELOPPEMENT
+  FRONTEND
+  BACKEND
   BASE_DE_DONNEES
   OUTILS_DEVOPS
   METHODOLOGIES

@@ -5,6 +5,8 @@ export type Technology = {
   category: string;
 };
 
+export const technologyCategoryLabels: Record<string, string> = { FRONTEND: "Frontend", BACKEND: "Backend", BASE_DE_DONNEES: "Base de données", OUTILS_DEVOPS: "Outils & DevOps", METHODOLOGIES: "Méthodologies", AUTRES: "Autres" };
+
 export type Project = {
   id: string;
   name: string;
@@ -21,7 +23,7 @@ export type Project = {
 };
 
 const technology = (name: string): { technology: Technology } => ({
-  technology: { id: name, name, slug: name.toLowerCase().replaceAll(".", "-"), category: "DEVELOPPEMENT" },
+  technology: { id: name, name, slug: name.toLowerCase().replaceAll(".", "-"), category: "FRONTEND" },
 });
 
 const fallbackProjects: Project[] = [
@@ -39,11 +41,11 @@ export async function getProjects(): Promise<Project[]> {
 }
 
 const fallbackTechnologies: Technology[] = [
-  { id: "nextjs", name: "Next.js", slug: "nextjs", category: "DEVELOPPEMENT" },
-  { id: "react", name: "React", slug: "react", category: "DEVELOPPEMENT" },
-  { id: "typescript", name: "TypeScript", slug: "typescript", category: "DEVELOPPEMENT" },
-  { id: "nodejs", name: "Node.js", slug: "nodejs", category: "DEVELOPPEMENT" },
-  { id: "express", name: "Express.js", slug: "expressjs", category: "DEVELOPPEMENT" },
+  { id: "nextjs", name: "Next.js", slug: "nextjs", category: "FRONTEND" },
+  { id: "react", name: "React", slug: "react", category: "FRONTEND" },
+  { id: "typescript", name: "TypeScript", slug: "typescript", category: "FRONTEND" },
+  { id: "nodejs", name: "Node.js", slug: "nodejs", category: "BACKEND" },
+  { id: "express", name: "Express.js", slug: "expressjs", category: "BACKEND" },
   { id: "postgresql", name: "PostgreSQL", slug: "postgresql", category: "BASE_DE_DONNEES" },
   { id: "prisma", name: "Prisma", slug: "prisma", category: "BASE_DE_DONNEES" },
 ];

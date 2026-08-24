@@ -36,7 +36,7 @@ async function main() {
         slug: "react",
         description: "Bibliothèque JS pour construire des interfaces utilisateur réactives et modulaires.",
         icon: "react",
-        category: TechnologyCategory.DEVELOPPEMENT,
+        category: TechnologyCategory.FRONTEND,
       },
     }),
     prisma.technology.create({
@@ -45,7 +45,7 @@ async function main() {
         slug: "nextjs",
         description: "Framework React pour des applications web performantes avec rendu côté serveur.",
         icon: "nextdotjs",
-        category: TechnologyCategory.DEVELOPPEMENT,
+        category: TechnologyCategory.FRONTEND,
       },
     }),
     prisma.technology.create({
@@ -54,7 +54,7 @@ async function main() {
         slug: "typescript",
         description: "Langage typé qui améliore la qualité du code, la maintenabilité et la collaboration.",
         icon: "typescript",
-        category: TechnologyCategory.DEVELOPPEMENT,
+        category: TechnologyCategory.FRONTEND,
       },
     }),
     prisma.technology.create({
@@ -63,7 +63,7 @@ async function main() {
         slug: "nodejs",
         description: "Environnement d'exécution JavaScript côté serveur, rapide et scalable.",
         icon: "nodedotjs",
-        category: TechnologyCategory.DEVELOPPEMENT,
+        category: TechnologyCategory.BACKEND,
       },
     }),
     prisma.technology.create({
@@ -72,7 +72,7 @@ async function main() {
         slug: "expressjs",
         description: "Framework minimal et flexible pour créer des APIs et des applications backend.",
         icon: "express",
-        category: TechnologyCategory.DEVELOPPEMENT,
+        category: TechnologyCategory.BACKEND,
       },
     }),
     prisma.technology.create({
@@ -99,7 +99,7 @@ async function main() {
         slug: "tailwind-css",
         description: "Framework CSS utility-first pour créer des interfaces modernes et responsive.",
         icon: "tailwindcss",
-        category: TechnologyCategory.DEVELOPPEMENT,
+        category: TechnologyCategory.FRONTEND,
       },
     }),
     prisma.technology.create({
@@ -117,7 +117,7 @@ async function main() {
         slug: "socket-io",
         description: "Bibliothèque pour la communication en temps réel entre client et serveur.",
         icon: "socketdotio",
-        category: TechnologyCategory.DEVELOPPEMENT,
+        category: TechnologyCategory.BACKEND,
       },
     }),
   ]);
