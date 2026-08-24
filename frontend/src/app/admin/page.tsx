@@ -2,6 +2,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { SiteHeader } from "@/components/portfolio/site-header";
+import { LogoutButton } from "@/components/admin/logout-button";
 
 async function getAdminData() {
   const token = (await cookies()).get("portfolio_admin_token")?.value;
@@ -19,5 +20,5 @@ async function getAdminData() {
 
 export default async function AdminPage() {
   const data = await getAdminData();
-  return <div className="site-shell"><SiteHeader /><main className="inner-page admin-page"><p className="eyebrow">Administration</p><h1>Vue d’ensemble.</h1><p className="page-lead">Gère les contenus qui alimentent ton portfolio public.</p><div className="admin-links"><Link href="/admin/projets"><strong>{data.projectCount}</strong><span>Projets</span></Link><Link href="/admin/messages"><strong>{data.unreadCount}</strong><span>Messages non lus</span></Link><Link href="/admin/technologies"><strong>→</strong><span>Technologies</span></Link><Link href="/admin/parcours"><strong>→</strong><span>Parcours</span></Link></div></main></div>;
+  return <div className="site-shell"><SiteHeader /><main className="inner-page admin-page"><div className="admin-page-heading"><div><p className="eyebrow">Administration</p><h1>Vue d’ensemble.</h1></div><LogoutButton /></div><p className="page-lead">Gère les contenus qui alimentent ton portfolio public.</p><div className="admin-links"><Link href="/admin/projets"><strong>{data.projectCount}</strong><span>Projets</span></Link><Link href="/admin/messages"><strong>{data.unreadCount}</strong><span>Messages non lus</span></Link><Link href="/admin/technologies"><strong>→</strong><span>Technologies</span></Link><Link href="/admin/parcours"><strong>→</strong><span>Parcours</span></Link></div></main></div>;
 }
