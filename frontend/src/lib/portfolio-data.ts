@@ -37,3 +37,21 @@ export async function getProjects(): Promise<Project[]> {
     return response.ok ? await response.json() as Project[] : fallbackProjects;
   } catch { return fallbackProjects; }
 }
+
+const fallbackTechnologies: Technology[] = [
+  { id: "nextjs", name: "Next.js", slug: "nextjs", category: "DEVELOPPEMENT" },
+  { id: "react", name: "React", slug: "react", category: "DEVELOPPEMENT" },
+  { id: "typescript", name: "TypeScript", slug: "typescript", category: "DEVELOPPEMENT" },
+  { id: "nodejs", name: "Node.js", slug: "nodejs", category: "DEVELOPPEMENT" },
+  { id: "express", name: "Express.js", slug: "expressjs", category: "DEVELOPPEMENT" },
+  { id: "postgresql", name: "PostgreSQL", slug: "postgresql", category: "BASE_DE_DONNEES" },
+  { id: "prisma", name: "Prisma", slug: "prisma", category: "BASE_DE_DONNEES" },
+];
+
+export async function getTechnologies(): Promise<Technology[]> {
+  const backendUrl = process.env.BACKEND_URL ?? "http://localhost:4000";
+  try {
+    const response = await fetch(`${backendUrl}/api/technologies`, { next: { revalidate: 60 } });
+    return response.ok ? await response.json() as Technology[] : fallbackTechnologies;
+  } catch { return fallbackTechnologies; }
+}
