@@ -12,8 +12,11 @@ export type Project = {
   description: string;
   category: string;
   status: string;
+  coverImage?: string | null;
   demoUrl?: string | null;
   codeUrl?: string | null;
+  featured?: boolean;
+  order?: number;
   technologies: Array<{ technology: Technology }>;
 };
 
@@ -22,9 +25,9 @@ const technology = (name: string): { technology: Technology } => ({
 });
 
 const fallbackProjects: Project[] = [
-  { id: "stock", name: "Gestion de stock", slug: "gestion-de-stock", description: "Application de suivi des entrées, sorties et rapports de stock en temps réel.", category: "FULLSTACK", status: "TERMINE", codeUrl: "https://github.com/XAlbert07/gestion-de-stock", technologies: ["Next.js", "TypeScript", "PostgreSQL", "Prisma"].map(technology) },
-  { id: "jobs", name: "Plateforme d’emploi", slug: "plateforme-emploi", description: "Plateforme de mise en relation entre candidats, recruteurs et opportunités.", category: "FULLSTACK", status: "TERMINE", codeUrl: "https://github.com/XAlbert07/plateforme-emploi", technologies: ["Next.js", "Node.js", "PostgreSQL"].map(technology) },
-  { id: "shop", name: "E-commerce", slug: "e-commerce", description: "Boutique en ligne avec panier, paiement sécurisé et gestion des commandes.", category: "FULLSTACK", status: "TERMINE", codeUrl: "https://github.com/XAlbert07/e-commerce", technologies: ["Next.js", "Stripe", "Prisma"].map(technology) },
+  { id: "stock", name: "Gestion de stock", slug: "gestion-de-stock", description: "Application de suivi des entrées, sorties et rapports de stock en temps réel.", category: "FULLSTACK", status: "TERMINE", featured: true, order: 1, codeUrl: "https://github.com/XAlbert07/gestion-de-stock", technologies: ["Next.js", "TypeScript", "PostgreSQL", "Prisma"].map(technology) },
+  { id: "jobs", name: "Plateforme d’emploi", slug: "plateforme-emploi", description: "Plateforme de mise en relation entre candidats, recruteurs et opportunités.", category: "FULLSTACK", status: "TERMINE", featured: true, order: 2, codeUrl: "https://github.com/XAlbert07/plateforme-emploi", technologies: ["Next.js", "Node.js", "PostgreSQL"].map(technology) },
+  { id: "shop", name: "E-commerce", slug: "e-commerce", description: "Boutique en ligne avec panier, paiement sécurisé et gestion des commandes.", category: "FULLSTACK", status: "TERMINE", featured: true, order: 3, codeUrl: "https://github.com/XAlbert07/e-commerce", technologies: ["Next.js", "Stripe", "Prisma"].map(technology) },
 ];
 
 export async function getProjects(): Promise<Project[]> {

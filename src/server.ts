@@ -6,6 +6,7 @@ import technologiesRoutes from "./routes/technologies.routes";
 import academicPathRoutes from "./routes/academicPath.routes";
 import messagesRoutes from "./routes/messages.routes";
 import authRoutes from "./routes/auth.routes";
+import uploadsRoutes from "./routes/uploads.routes";
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ const PORT = process.env.PORT || 4000;
 // Middlewares globaux
 app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:3000" }));
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 
 // Route de test simple : pour vérifier que le serveur tourne
 app.get("/api/health", (req, res) => {
@@ -28,6 +30,7 @@ app.use("/api/projects", projectsRoutes);
 app.use("/api/technologies", technologiesRoutes);
 app.use("/api/academic-path", academicPathRoutes);
 app.use("/api/messages", messagesRoutes);
+app.use("/api/uploads", uploadsRoutes);
 
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);
