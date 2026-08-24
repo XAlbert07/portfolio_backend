@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { prisma } from "../lib/prisma";
 import { requireAuth, AuthRequest } from "../middlewares/auth.middleware";
+import { removeLocalUpload } from "../lib/uploads";
 
 const router = Router();
 
@@ -141,6 +142,7 @@ router.put("/:id", requireAuth, async (req: AuthRequest, res) => {
       technologyIds,
     } = req.body;
 
+    const existingProject = await prisma.project.findUnique({ where: { id }, select: { coverImage: true } });
     // Si technologyIds est fourni, on remplace entièrement les liaisons
     // existantes : on supprime les anciennes, on recrée les nouvelles.
     // C'est plus simple et plus sûr que d'essayer de calculer un "diff".
@@ -174,6 +176,10 @@ router.put("/:id", requireAuth, async (req: AuthRequest, res) => {
       },
     });
 
+    if (existingProject?.coverImage && coverImage && existingProject.coverImage !== coverImage) {
+      await removeLocalUpload(existingProject.coverImage);
+    }
+
     res.json(project);
   } catch (error: any) {
     console.error(error);
@@ -190,7 +196,9 @@ router.delete("/:id", requireAuth, async (req: AuthRequest, res) => {
   try {
     const { id } = req.params;
 
+    const project = await prisma.project.findUnique({ where: { id }, select: { coverImage: true } });
     await prisma.project.delete({ where: { id } });
+    await removeLocalUpload(project?.coverImage);
 
     res.status(204).send(); // 204 = succès, pas de contenu à renvoyer
   } catch (error: any) {
