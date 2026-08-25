@@ -4,6 +4,8 @@ export type Technology = {
   slug: string;
   description?: string;
   category: string;
+  featured?: boolean;
+  order?: number;
 };
 
 export const technologyCategoryLabels: Record<string, string> = { FRONTEND: "Frontend", BACKEND: "Backend", BASE_DE_DONNEES: "Base de données", OUTILS_DEVOPS: "Outils & DevOps", METHODOLOGIES: "Méthodologies", AUTRES: "Autres" };
@@ -42,13 +44,13 @@ export async function getProjects(): Promise<Project[]> {
 }
 
 const fallbackTechnologies: Technology[] = [
-  { id: "nextjs", name: "Next.js", slug: "nextjs", category: "FRONTEND" },
-  { id: "react", name: "React", slug: "react", category: "FRONTEND" },
-  { id: "typescript", name: "TypeScript", slug: "typescript", category: "FRONTEND" },
-  { id: "nodejs", name: "Node.js", slug: "nodejs", category: "BACKEND" },
-  { id: "express", name: "Express.js", slug: "expressjs", category: "BACKEND" },
-  { id: "postgresql", name: "PostgreSQL", slug: "postgresql", category: "BASE_DE_DONNEES" },
-  { id: "prisma", name: "Prisma", slug: "prisma", category: "BASE_DE_DONNEES" },
+  { id: "nextjs", name: "Next.js", slug: "nextjs", category: "FRONTEND", featured: true, order: 1 },
+  { id: "react", name: "React", slug: "react", category: "FRONTEND", featured: true, order: 2 },
+  { id: "typescript", name: "TypeScript", slug: "typescript", category: "FRONTEND", featured: true, order: 3 },
+  { id: "nodejs", name: "Node.js", slug: "nodejs", category: "BACKEND", featured: true, order: 4 },
+  { id: "express", name: "Express.js", slug: "expressjs", category: "BACKEND", featured: true, order: 5 },
+  { id: "postgresql", name: "PostgreSQL", slug: "postgresql", category: "BASE_DE_DONNEES", featured: true, order: 6 },
+  { id: "prisma", name: "Prisma", slug: "prisma", category: "BASE_DE_DONNEES", featured: true, order: 7 },
 ];
 
 export async function getTechnologies(): Promise<Technology[]> {

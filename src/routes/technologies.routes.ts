@@ -10,7 +10,7 @@ const router = Router();
 router.get("/", async (req, res) => {
   try {
     const technologies = await prisma.technology.findMany({
-      orderBy: { name: "asc" },
+      orderBy: [{ featured: "desc" }, { order: "asc" }, { name: "asc" }],
       include: {
         projects: {
           include: {
@@ -61,7 +61,7 @@ router.get("/:slug", async (req, res) => {
 // POST /api/technologies
 router.post("/", requireAuth, async (req: AuthRequest, res) => {
   try {
-    const { name, slug, description, icon, category } = req.body;
+    const { name, slug, description, icon, category, featured, order } = req.body;
 
     if (!name || !slug || !description || !category) {
       return res.status(400).json({
@@ -70,7 +70,7 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
     }
 
     const technology = await prisma.technology.create({
-      data: { name, slug, description, icon, category },
+      data: { name, slug, description, icon, category, featured: featured ?? false, order: order ?? 0 },
     });
 
     res.status(201).json(technology);
@@ -87,11 +87,11 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
 router.put("/:id", requireAuth, async (req: AuthRequest, res) => {
   try {
     const { id } = req.params;
-    const { name, slug, description, icon, category } = req.body;
+    const { name, slug, description, icon, category, featured, order } = req.body;
 
     const technology = await prisma.technology.update({
       where: { id },
-      data: { name, slug, description, icon, category },
+      data: { name, slug, description, icon, category, featured, order },
     });
 
     res.json(technology);

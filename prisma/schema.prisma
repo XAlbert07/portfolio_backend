@@ -82,6 +82,8 @@ model Technology {
   description String
   icon        String?            // nom d'icône ou URL
   category    TechnologyCategory
+  featured    Boolean            @default(false)
+  order       Int                @default(0)
 
   projects ProjectTechnology[]
 
