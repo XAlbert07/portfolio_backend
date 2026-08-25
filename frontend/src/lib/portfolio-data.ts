@@ -2,6 +2,7 @@ export type Technology = {
   id: string;
   name: string;
   slug: string;
+  description?: string;
   category: string;
 };
 
